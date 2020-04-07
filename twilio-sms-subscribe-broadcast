@@ -17,8 +17,8 @@ const notify = client.notify.services(process.env.TTK_BROADCAST_NOTIFY_SERVICE_S
 
 // List of admin phone numbers should be in the system environment
 const adminNumbers = process.env.TTK_BROADCAST_ADMIN_NUMBERS
-const ownerName = 'Nadav Savio'
-const ownerNumber = '4153368895'
+const ownerName = process.env.TTK_BROADCAST_OWNER_NAME
+const ownerNumber = process.env.TTK_BROADCAST_OWNER_NUMBER
 
 // Response strings - update these to change the copy in the messages
 const helpMessage = 'Hello! Text "subscribe" to receive updates, "stop" to stop getting messages, and "start" to receive them again. Contact ' + ownerName + ' at ' + ownerNumber + ' for tech support.'
@@ -135,9 +135,7 @@ class ModeratorsCommand extends Command {
       return callback(null, broadcastNotAuthorizedMessage)
     }
 
-    // define recipients in JSON, later can construct from a loop on adminNumbers 
-    // const modNumbers = ['{"binding_type":"sms", "address":"+14153368895"}', '{"binding_type":"sms", "address":"+14158469498"}'];
-    const tempNumbers = ['+14153368895','+14153368895']
+    // grab recipients from adminNumbers
     const modNumbers = adminNumbers.split(',').map(value => '{"binding_type":"sms", "address":"' + value + '"}') 
 
     // Create a new SMS Notify binding for this user's phone number
